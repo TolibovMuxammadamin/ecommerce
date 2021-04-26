@@ -1,16 +1,18 @@
-const app = require('./server');
-const bodyParser = require('body-parser');
-const routes = require('./routes');;
-// const cors = require('cors')
+const server = require('./server');
+const middlewares = require('./middlewares');
+const db = require('./database');
 
-app.use(bodyParser.json());
-// app.use(cors());
+middlewares();
 
-app.use(routes);
+db
+  .sync({ force: false, logging: false })
+  .then(() => {
+    console.log('Server running on http://localhost:5000');
 
-try {
-  console.log('App running on http://localhost:5000');
-  app.listen(5000);
-} catch (e) {
-  console.log(e);
-}
+    middlewares();
+
+    server.listen(5000);
+  })
+  .catch(err => {
+    console.log(err);
+  })
