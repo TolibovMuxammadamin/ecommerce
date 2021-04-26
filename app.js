@@ -1,11 +1,13 @@
 const server = require('./server');
 const middlewares = require('./middlewares');
 const db = require('./database');
+const path = require('path');
+const express = require('express');
 
 middlewares();
 
 db
-  .sync({ force: false, logging: false })
+  .sync({ force: true, logging: false })
   .then(() => {
     console.log('Server running on http://localhost:5000');
 

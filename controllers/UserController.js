@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const User = require('../models/UserModel');
 
 exports.getUsers = async (req, res, next) => {
   const users = await User.findAll({
@@ -12,6 +12,15 @@ exports.getUsers = async (req, res, next) => {
 
 exports.createUser = async (req, res, next) => {
   try {
+    console.log(req.files);
+
+    if (req.files && req.files.length > 0) {
+      const avatar = req.files.find(file => file.fieldname === 'avatar');
+
+      console.log(avatar);
+      if (avatar) { req.body.avatar = avatar.path.split('\\').join('/') }
+    }
+    console.log(req.body);
     const createdUser = await User.create(req.body);
 
     res.json(createdUser);

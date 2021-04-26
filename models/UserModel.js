@@ -15,5 +15,6 @@ module.exports = db.define('user', {
   password: {
     type: DataTypes.STRING,
     allowNull: false
-  }
+  },
+  avatar: DataTypes.STRING
 })
